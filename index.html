@@ -5,61 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Valentine 💖</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-/* ตั้งค่าพื้นหลังและฟอนต์ */
+/* --- ตั้งค่าพื้นฐาน --- */
 body {
     margin: 0;
     overflow: hidden;
-    background: linear-gradient(to bottom, #ffe6f0, #ffc2d1);
-    font-family: 'Sarabun', sans-serif; /* แนะนำฟอนต์อ่านง่าย */
+    /* พื้นหลังไล่สีเคลื่อนไหว */
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    font-family: 'Mali', cursive; /* ฟอนต์ลายมือ */
     text-align: center;
-    color: #5a2a3b; /* สีตัวอักษรให้อ่านง่ายขึ้น */
+    color: #fff;
 }
 
-/* หน้า Login */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- หน้า Login แบบกระจกฝ้า --- */
 #login {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: 80%;
-    max-width: 350px;
+    /* Effect กระจกฝ้า */
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    width: 85%;
+    max-width: 380px;
+    transition: 0.5s;
 }
 
-h2 { margin-bottom: 20px; color: #ff4d88; }
+h2 { 
+    margin-bottom: 25px; 
+    color: #fff; 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-weight: 700;
+}
 
 input {
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 20px;
-    border: 2px solid #ffb3c6;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 50px;
+    border: none;
     outline: none;
     text-align: center;
-    width: 80%;
-    color: #ff4d88;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Mali', cursive;
+    background: rgba(255, 255, 255, 0.9);
+    color: #ff6b81;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
 }
 
 button {
-    margin-top: 20px;
-    padding: 12px 30px;
-    font-size: 18px;
+    margin-top: 25px;
+    padding: 12px 40px;
+    font-size: 20px;
     border: none;
-    border-radius: 25px;
-    background: #ff4d88;
+    border-radius: 50px;
+    background: #ff6b81;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 77, 136, 0.4);
-    transition: 0.3s;
+    font-family: 'Mali', cursive;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse 2s infinite;
 }
 
-button:hover { background: #ff3377; transform: scale(1.05); }
+button:hover { 
+    background: #ff4757; 
+    transform: scale(1.05); 
+}
 
-/* หน้าหลัก */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* --- หน้าหลัก --- */
 #main {
     display: none;
     height: 100vh;
@@ -67,94 +106,112 @@ button:hover { background: #ff3377; transform: scale(1.05); }
     position: relative;
 }
 
-/* การจัดวางสไลด์ */
 .slide {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* จัดกึ่งกลางจอ */
+    transform: translate(-50%, -50%);
     width: 100%;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    pointer-events: none; /* ป้องกันการกดบัง */
+    transition: all 1.5s ease-in-out;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-/* ปรับขนาดรูปภาพ (ตามที่ขอ: กลางๆ ไม่ใหญ่มาก) */
+/* กรอบรูปสไตล์โพลารอยด์ */
 .slide img {
     width: auto;
-    max-width: 85%;  /* มือถือไม่เกิน 85% ของจอ */
+    max-width: 80%;
     height: auto;
-    max-height: 45vh; /* สูงไม่เกินครึ่งจอ */
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    border: 5px solid white;
+    max-height: 40vh;
+    border: 12px solid #fff;
+    border-bottom: 30px solid #fff; /* ขอบล่างหนาเหมือนโพลารอยด์ */
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: rotate(-2deg); /* เอียงนิดๆ ให้ดูธรรมชาติ */
+    transition: transform 3s ease-in-out;
 }
 
-/* ข้อความใต้รูป */
+.slide.active img {
+    animation: floatImg 6s ease-in-out infinite;
+}
+
+@keyframes floatImg {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(0deg) translateY(-10px); }
+}
+
 .text {
-    margin-top: 25px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #d6336c;
-    text-shadow: 1px 1px 2px white;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
 }
 
-/* คลาสสำหรับแสดงผล */
 .active {
     opacity: 1;
     pointer-events: auto;
     z-index: 10;
 }
 
-/* กลีบกุหลาบ */
-.rose {
+/* กล่องข้อความสุดท้าย */
+#longText {
+    display: none;
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.8;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    width: 80%;
+    max-width: 500px;
+    color: #ff4757;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    position: relative;
+    animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+#readMore {
+    display: none;
+    margin-top: 20px;
+    z-index: 20;
+}
+
+/* ของตกแต่งลอยไปมา */
+.floating-item {
     position: absolute;
-    top: -50px;
-    font-size: 24px;
-    animation: fall linear infinite;
-    z-index: 1; /* อยู่หลังข้อความ */
+    bottom: -50px;
+    animation: floatUp linear infinite;
+    z-index: 1;
     opacity: 0.7;
 }
 
-@keyframes fall {
-    to { transform: translateY(110vh) rotate(360deg); }
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
 }
 
-/* ปุ่มอ่านต่อและข้อความยาว */
-#readMore {
-    display: none;
-    margin-top: 15px;
-    font-size: 16px;
-    padding: 8px 20px;
-}
-
-#longText {
-    display: none;
-    margin-top: 15px;
-    font-size: 18px;
-    line-height: 1.6;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 10px;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    color: #ff3377;
-}
-
-/* ซ่อน Youtube ไว้ */
-#ytMusic {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-}
+#ytMusic { position: absolute; top: -9999px; left: -9999px; }
 </style>
 </head>
 
 <body>
 
 <div id="login">
-    <h2>ใส่รหัสหัวใจของเรา 💕</h2>
+    <h2>🔐 ใส่รหัสหัวใจของเรา 💕</h2>
     <input type="password" id="pass" placeholder="ววดดปป (160366)">
     <br>
     <button onclick="checkPass()">เปิดความรัก 💖</button>
@@ -175,7 +232,7 @@ button:hover { background: #ff3377; transform: scale(1.05); }
 
     <div class="slide">
         <img src="img3.jpg">
-        <div class="text">สิ่งเดียวที่อยากให้คงอยู่ตลอดไป<br>คือความรักจากเค้าคนนี้ 🤍</div>
+        <div class="text">สิ่งเดียวที่อยากให้เธอ<br>คงเป็นความรักจากเค้าคนนี้ 💕</div>
     </div>
 
     <div class="slide">
@@ -185,103 +242,82 @@ button:hover { background: #ff3377; transform: scale(1.05); }
         <div id="longText">
             แต่รับรอง เธอจะมีเค้าอยู่ข้างๆ <br>
             ขอให้รู้ไว้ว่าคนนี้จะรักเธอเสมอ <br>
-            ขอบคุณที่เป็นความสุขของกันและกันนะ 💞
+            ขอบคุณที่เป็นความสุขของกันและกันนะ 💞<br>
+            <small style="display:block; margin-top:10px; color:#aaa;">(รักเธอนะคนเก่ง)</small>
         </div>
     </div>
 </div>
 
 <script>
-// 1. ฟังก์ชันเช็ครหัสผ่าน
 function checkPass() {
     var p = document.getElementById("pass").value;
-    
-    // 🔐 รหัสผ่านคือ 160366
     if (p === "160366") { 
-        document.getElementById("login").style.opacity = "0"; 
+        var loginBox = document.getElementById("login");
+        loginBox.style.transform = "translate(-50%, -50%) scale(0.8)";
+        loginBox.style.opacity = "0";
+        
         setTimeout(function(){
-            document.getElementById("login").style.display = "none";
+            loginBox.style.display = "none";
             document.getElementById("main").style.display = "block";
-            
-            // เริ่มการทำงาน
             playMusic();
             runSlides();
-        }, 500); // รอ animation นิดนึง
+            startFloatingItems(); // เริ่มเอฟเฟกต์หัวใจลอย
+        }, 500);
     } else {
-        alert("รหัสผิดงับ ลองใหม่อีกทีนะ 😢");
+        alert("รหัสผิดงับ ลองใหม่อีกทีนะ 🥺");
         document.getElementById("pass").value = "";
     }
 }
 
-// 2. ฟังก์ชันเล่นเพลง (Youtube)
 function playMusic() {
-    // 🎵 ID เพลง: Landokmai - เพลงรักเพลงแรก (uVDpvQhCkB0)
     var videoID = "uVDpvQhCkB0"; 
-    
     var iframe = document.createElement("iframe");
-    iframe.width = "100";
-    iframe.height = "100";
-    // ลิงก์แบบ Autoplay ที่สมบูรณ์
     iframe.src = "https://www.youtube.com/embed/" + videoID + "?autoplay=1&loop=1&playlist=" + videoID + "&controls=0&disablekb=1";
     iframe.allow = "autoplay";
-    iframe.frameBorder = "0";
-    
+    iframe.style.display = "none";
     document.getElementById("ytMusic").appendChild(iframe);
 }
 
-// 3. ฟังก์ชันเปลี่ยนสไลด์
 var slides = document.querySelectorAll(".slide");
 var currentSlide = 0;
 
 function runSlides() {
-    // ตั้งเวลาเปลี่ยนรูปทุกๆ 5 วินาที
     var slideInterval = setInterval(function() {
-        
-        // ถ้าถึงรูปสุดท้ายแล้ว (รูปที่ 4) ให้หยุด Loop
         if (currentSlide >= slides.length - 1) {
-            clearInterval(slideInterval); // หยุดการจับเวลา
-            // แสดงปุ่มอ่านต่อ
+            clearInterval(slideInterval);
             document.getElementById("readMore").style.display = "inline-block";
             return;
         }
-
-        // ซ่อนรูปปัจจุบัน
         slides[currentSlide].classList.remove("active");
-        
-        // ไปรูปถัดไป
         currentSlide++;
-        
-        // แสดงรูปใหม่
         slides[currentSlide].classList.add("active");
-
-    }, 5000); // 5000 ms = 5 วินาที ต่อ 1 รูป
+    }, 5000);
 }
 
-// 4. ฟังก์ชันกดปุ่มอ่านต่อ
 function showLongText() {
     var txt = document.getElementById("longText");
     txt.style.display = "block";
-    // เลื่อนลงมาให้อ่านง่าย
-    txt.scrollIntoView({behavior: "smooth"});
-    // ซ่อนปุ่มกด
     document.getElementById("readMore").style.display = "none";
 }
 
-// 5. Effect กลีบกุหลาบตก
-function createRose() {
-    var rose = document.createElement("div");
-    rose.className = "rose";
-    rose.innerHTML = "🌹"; // หรือจะเปลี่ยนเป็นหัวใจ ❤️ ก็ได้
-    rose.style.left = Math.random() * 100 + "vw";
-    rose.style.animationDuration = (Math.random() * 3 + 3) + "s"; // ตกช้า-เร็วต่างกัน
-    rose.style.fontSize = (Math.random() * 20 + 15) + "px"; // ขนาดเล็กใหญ่ต่างกัน
-    document.body.appendChild(rose);
-
-    setTimeout(function() {
-        rose.remove();
-    }, 6000);
+// สร้างหัวใจและดอกไม้ลอย
+function startFloatingItems() {
+    setInterval(function(){
+        var item = document.createElement("div");
+        item.className = "floating-item";
+        // สุ่มเลือกระหว่าง 🌹, 💖, ✨
+        var shapes = ["🌹", "💖", "✨", "💕"];
+        item.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+        
+        item.style.left = Math.random() * 100 + "vw";
+        item.style.fontSize = (Math.random() * 20 + 20) + "px";
+        item.style.animationDuration = (Math.random() * 5 + 5) + "s"; 
+        
+        document.body.appendChild(item);
+        
+        setTimeout(function() { item.remove(); }, 10000);
+    }, 800);
 }
-setInterval(createRose, 400); // สร้างกุหลาบทุกๆ 0.4 วิ
-
 </script>
 
 </body>
