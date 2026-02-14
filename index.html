@@ -2,248 +2,286 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Valentine 💖</title>
 
 <style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#ff4d6d,#ff8fab,#ffc2d1);
-    overflow:hidden;
-    text-align:center;
-    color:white;
+/* ตั้งค่าพื้นหลังและฟอนต์ */
+body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #ffe6f0, #ffc2d1);
+    font-family: 'Sarabun', sans-serif; /* แนะนำฟอนต์อ่านง่าย */
+    text-align: center;
+    color: #5a2a3b; /* สีตัวอักษรให้อ่านง่ายขึ้น */
 }
 
-/* หน้าใส่รหัส */
-#loginPage{
-    position:absolute;
-    width:100%;
-    top:40%;
+/* หน้า Login */
+#login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 80%;
+    max-width: 350px;
 }
 
-input{
-    padding:12px;
-    border:none;
-    border-radius:20px;
-    font-size:16px;
+h2 { margin-bottom: 20px; color: #ff4d88; }
+
+input {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 20px;
+    border: 2px solid #ffb3c6;
+    outline: none;
+    text-align: center;
+    width: 80%;
+    color: #ff4d88;
 }
 
-button{
-    padding:12px 25px;
-    border:none;
-    border-radius:20px;
-    background:#ff1744;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    box-shadow:0 0 15px rgba(255,0,85,0.6);
+button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    background: #ff4d88;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 77, 136, 0.4);
+    transition: 0.3s;
 }
 
-/* หน้าเซอร์ไพรส์ */
-#lovePage{
-    display:none;
-    margin-top:60px;
+button:hover { background: #ff3377; transform: scale(1.05); }
+
+/* หน้าหลัก */
+#main {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
 }
 
-h1{
-    text-shadow:0 0 15px white;
+/* การจัดวางสไลด์ */
+.slide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* จัดกึ่งกลางจอ */
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    pointer-events: none; /* ป้องกันการกดบัง */
 }
 
-img{
-    width:300px;
-    border-radius:25px;
-    box-shadow:0 0 30px white;
-    opacity:0;
-    transform:scale(1);
-    transition: opacity 1s ease-in-out, transform 3s ease-in-out;
+/* ปรับขนาดรูปภาพ (ตามที่ขอ: กลางๆ ไม่ใหญ่มาก) */
+.slide img {
+    width: auto;
+    max-width: 85%;  /* มือถือไม่เกิน 85% ของจอ */
+    height: auto;
+    max-height: 45vh; /* สูงไม่เกินครึ่งจอ */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border: 5px solid white;
 }
 
-.zoom{
-    transform:scale(1.08);
+/* ข้อความใต้รูป */
+.text {
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #d6336c;
+    text-shadow: 1px 1px 2px white;
 }
 
-#message{
-    margin-top:20px;
-    font-size:20px;
-    opacity:0;
-    transition: opacity 1s ease-in-out;
-}
-
-/* ปุ่มอ่านต่อ */
-#readMoreBtn{
-    display:none;
-    margin-top:25px;
-}
-
-/* ข้อความยาว */
-#finalMessage{
-    display:none;
-    margin:30px auto;
-    width:85%;
-    font-size:22px;
-    line-height:1.7;
-    animation: fadeIn 2s forwards;
-}
-
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
+/* คลาสสำหรับแสดงผล */
+.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 10;
 }
 
 /* กลีบกุหลาบ */
-.rose{
-    position:absolute;
-    top:-10px;
-    font-size:20px;
-    animation: fall linear forwards;
+.rose {
+    position: absolute;
+    top: -50px;
+    font-size: 24px;
+    animation: fall linear infinite;
+    z-index: 1; /* อยู่หลังข้อความ */
+    opacity: 0.7;
 }
 
-@keyframes fall{
-    to{
-        transform: translateY(100vh) rotate(360deg);
-        opacity:0;
-    }
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* ปุ่มอ่านต่อและข้อความยาว */
+#readMore {
+    display: none;
+    margin-top: 15px;
+    font-size: 16px;
+    padding: 8px 20px;
+}
+
+#longText {
+    display: none;
+    margin-top: 15px;
+    font-size: 18px;
+    line-height: 1.6;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ff3377;
+}
+
+/* ซ่อน Youtube ไว้ */
+#ytMusic {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- หน้าใส่รหัส -->
-<div id="loginPage">
-    <h2>ใส่รหัสหัวใจของเราก่อนนะ 💌</h2>
-    <input type="password" id="password">
-    <br><br>
-    <button onclick="checkPassword()">เปิดความรัก 💖</button>
+<div id="login">
+    <h2>ใส่รหัสหัวใจของเรา 💕</h2>
+    <input type="password" id="pass" placeholder="ววดดปป (160366)">
+    <br>
+    <button onclick="checkPass()">เปิดความรัก 💖</button>
 </div>
 
-<!-- หน้าเนื้อหา -->
-<div id="lovePage">
-    <h1>Happy Valentine’s Day 🌹</h1>
+<div id="main">
+    <div id="ytMusic"></div>
 
-    <img id="slide" src="">
-    <div id="message"></div>
-
-    <br>
-    <button id="readMoreBtn" onclick="showFinalMessage()">อ่านต่อ 💌</button>
-
-    <div id="finalMessage">
-        ตั้งแต่วันที่เธอเข้ามาในชีวิต  
-        โลกของเราก็อบอุ่นขึ้นแบบที่ไม่เคยเป็นมาก่อน  
-        ขอบคุณสำหรับทุกความทรงจำ ทุกเสียงหัวเราะ  
-        และทุกวันที่ยังจับมือกันอยู่  
-        ไม่ว่าอนาคตจะเป็นยังไง  
-        เราสัญญาว่าจะเลือกเธอเสมอ  
-        สุขสันต์วันวาเลนไทน์นะคนดี 💖🌹
+    <div class="slide active">
+        <img src="img1.jpg">
+        <div class="text">สุขสันต์วันวาเลนไทน์นะที่รัก 💕</div>
     </div>
 
-    <!-- เพลง -->
-    <audio id="loveSong" loop>
-        <source src="yoursong.mp3" type="audio/mpeg">
-    </audio>
+    <div class="slide">
+        <img src="img2.jpg">
+        <div class="text">โชคดีที่เค้ามีเธอ 🌹</div>
+    </div>
+
+    <div class="slide">
+        <img src="img3.jpg">
+        <div class="text">สิ่งเดียวที่อยากให้คงอยู่ตลอดไป<br>คือความรักจากเค้าคนนี้ 🤍</div>
+    </div>
+
+    <div class="slide">
+        <img src="img4.jpg">
+        <div class="text">มันอาจจะไม่พิเศษมาก 💖</div>
+        <button id="readMore" onclick="showLongText()">อ่านต่อ 💌</button>
+        <div id="longText">
+            แต่รับรอง เธอจะมีเค้าอยู่ข้างๆ <br>
+            ขอให้รู้ไว้ว่าคนนี้จะรักเธอเสมอ <br>
+            ขอบคุณที่เป็นความสุขของกันและกันนะ 💞
+        </div>
+    </div>
 </div>
 
 <script>
-/* รูป + ข้อความ */
-var images = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg"];
-
-var texts = [
-"วันแรกที่เราได้รู้จักกัน 💕",
-"ทุกช่วงเวลาที่มีเธอ มันมีความหมายเสมอ 🌷",
-"ขอบคุณที่อยู่ข้างกันไม่ว่าอะไรจะเกิดขึ้น 🥹",
-"และนี่คือเหตุผลทั้งหมดที่เรารักเธอ 💖"
-];
-
-var index = 0;
-var slideInterval;
-
-/* ตรวจรหัส */
-function checkPassword(){
-    if(document.getElementById("password").value === "160366"){
-        document.getElementById("loginPage").style.display="none";
-        document.getElementById("lovePage").style.display="block";
-
-        var music = document.getElementById("loveSong");
-        music.volume = 0;
-        music.play();
-        fadeInMusic(music);
-
-        startSlide();
-    }else{
-        alert("รหัสยังไม่ถูกนะ 💔");
+// 1. ฟังก์ชันเช็ครหัสผ่าน
+function checkPass() {
+    var p = document.getElementById("pass").value;
+    
+    // 🔐 รหัสผ่านคือ 160366
+    if (p === "160366") { 
+        document.getElementById("login").style.opacity = "0"; 
+        setTimeout(function(){
+            document.getElementById("login").style.display = "none";
+            document.getElementById("main").style.display = "block";
+            
+            // เริ่มการทำงาน
+            playMusic();
+            runSlides();
+        }, 500); // รอ animation นิดนึง
+    } else {
+        alert("รหัสผิดงับ ลองใหม่อีกทีนะ 😢");
+        document.getElementById("pass").value = "";
     }
 }
 
-/* Fade in เพลง */
-function fadeInMusic(audio){
-    var volume = 0;
-    var fade = setInterval(function(){
-        if(volume < 0.9){
-            volume += 0.02;
-            audio.volume = volume;
-        }else{
-            clearInterval(fade);
-        }
-    },200);
+// 2. ฟังก์ชันเล่นเพลง (Youtube)
+function playMusic() {
+    // 🎵 ID เพลง: Landokmai - เพลงรักเพลงแรก (uVDpvQhCkB0)
+    var videoID = "uVDpvQhCkB0"; 
+    
+    var iframe = document.createElement("iframe");
+    iframe.width = "100";
+    iframe.height = "100";
+    // ลิงก์แบบ Autoplay ที่สมบูรณ์
+    iframe.src = "https://www.youtube.com/embed/" + videoID + "?autoplay=1&loop=1&playlist=" + videoID + "&controls=0&disablekb=1";
+    iframe.allow = "autoplay";
+    iframe.frameBorder = "0";
+    
+    document.getElementById("ytMusic").appendChild(iframe);
 }
 
-/* เริ่มสไลด์ */
-function startSlide(){
-    showSlide();
-    slideInterval = setInterval(function(){
-        index++;
-        if(index >= images.length){
-            clearInterval(slideInterval);
+// 3. ฟังก์ชันเปลี่ยนสไลด์
+var slides = document.querySelectorAll(".slide");
+var currentSlide = 0;
+
+function runSlides() {
+    // ตั้งเวลาเปลี่ยนรูปทุกๆ 5 วินาที
+    var slideInterval = setInterval(function() {
+        
+        // ถ้าถึงรูปสุดท้ายแล้ว (รูปที่ 4) ให้หยุด Loop
+        if (currentSlide >= slides.length - 1) {
+            clearInterval(slideInterval); // หยุดการจับเวลา
+            // แสดงปุ่มอ่านต่อ
+            document.getElementById("readMore").style.display = "inline-block";
             return;
         }
-        showSlide();
-    },4000);
+
+        // ซ่อนรูปปัจจุบัน
+        slides[currentSlide].classList.remove("active");
+        
+        // ไปรูปถัดไป
+        currentSlide++;
+        
+        // แสดงรูปใหม่
+        slides[currentSlide].classList.add("active");
+
+    }, 5000); // 5000 ms = 5 วินาที ต่อ 1 รูป
 }
 
-/* แสดงรูป + ข้อความ */
-function showSlide(){
-    var img = document.getElementById("slide");
-    var msg = document.getElementById("message");
-
-    img.classList.remove("zoom");
-    img.style.opacity = 0;
-    msg.style.opacity = 0;
-
-    setTimeout(function(){
-        img.src = images[index];
-        msg.innerHTML = texts[index];
-
-        img.style.opacity = 1;
-        msg.style.opacity = 1;
-
-        setTimeout(function(){
-            img.classList.add("zoom");
-        },100);
-
-        if(index === images.length - 1){
-            document.getElementById("readMoreBtn").style.display = "inline-block";
-        }
-    },500);
+// 4. ฟังก์ชันกดปุ่มอ่านต่อ
+function showLongText() {
+    var txt = document.getElementById("longText");
+    txt.style.display = "block";
+    // เลื่อนลงมาให้อ่านง่าย
+    txt.scrollIntoView({behavior: "smooth"});
+    // ซ่อนปุ่มกด
+    document.getElementById("readMore").style.display = "none";
 }
 
-/* แสดงข้อความยาว */
-function showFinalMessage(){
-    document.getElementById("finalMessage").style.display="block";
-}
-
-/* กลีบกุหลาบร่วง */
-setInterval(function(){
+// 5. Effect กลีบกุหลาบตก
+function createRose() {
     var rose = document.createElement("div");
     rose.className = "rose";
-    rose.innerHTML = "🌹";
-    rose.style.left = Math.random()*100 + "vw";
-    rose.style.animationDuration = (Math.random()*3 + 3) + "s";
+    rose.innerHTML = "🌹"; // หรือจะเปลี่ยนเป็นหัวใจ ❤️ ก็ได้
+    rose.style.left = Math.random() * 100 + "vw";
+    rose.style.animationDuration = (Math.random() * 3 + 3) + "s"; // ตกช้า-เร็วต่างกัน
+    rose.style.fontSize = (Math.random() * 20 + 15) + "px"; // ขนาดเล็กใหญ่ต่างกัน
     document.body.appendChild(rose);
 
-    setTimeout(function(){
+    setTimeout(function() {
         rose.remove();
-    },6000);
-},500);
+    }, 6000);
+}
+setInterval(createRose, 400); // สร้างกุหลาบทุกๆ 0.4 วิ
+
 </script>
 
 </body>
