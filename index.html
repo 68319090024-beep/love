@@ -2,82 +2,104 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>ค่ำคืนนี้มีแค่เรา 🌙</title>
+<title>Happy Valentine 💖</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
+body{
+    margin:0;
     font-family: 'Arial', sans-serif;
-    background: radial-gradient(circle at top, #1a1a40, #000814);
-    color: white;
-    text-align: center;
-    overflow: hidden;
+    background: linear-gradient(135deg,#ff4d6d,#ff8fab,#ffc2d1);
+    overflow:hidden;
+    text-align:center;
+    color:white;
 }
 
-/* ดาวกระพริบ */
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    animation: twinkle 2s infinite alternate;
+/* หน้าใส่รหัส */
+#loginPage{
+    position:absolute;
+    width:100%;
+    top:40%;
 }
 
-@keyframes twinkle {
-    from { opacity: 0.2; }
-    to { opacity: 1; }
+input{
+    padding:12px;
+    border:none;
+    border-radius:20px;
+    font-size:16px;
+    width:200px;
 }
 
-#lovePage {
-    display: none;
-    padding-top: 80px;
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:20px;
+    background:#ff1744;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 0 15px rgba(255,0,85,0.7);
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
+button:hover{
+    background:#ff4569;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background: #3a86ff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+/* หน้าเซอร์ไพรส์ */
+#lovePage{
+    display:none;
+    position:absolute;
+    width:100%;
+    top:10%;
 }
 
-img {
-    width: 280px;
-    border-radius: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 25px #4cc9f0;
+h1{
+    font-size:45px;
+    text-shadow:0 0 20px white;
 }
 
-h1 {
-    text-shadow: 0 0 15px #4cc9f0;
+p{
+    font-size:20px;
+}
+
+/* วิดีโอ */
+video{
+    width:320px;
+    border-radius:25px;
+    box-shadow:0 0 30px white;
+    margin-top:20px;
+}
+
+/* หัวใจลอย */
+.heart{
+    position:absolute;
+    color:white;
+    font-size:20px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float{
+    0%{ transform:translateY(100vh) scale(1); opacity:1; }
+    100%{ transform:translateY(-10vh) scale(1.5); opacity:0; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- หน้าใส่รหัส -->
-<div id="loginPage" style="padding-top:150px;">
-    <h2>ใส่รหัสลับของเราก่อนนะ 🌙</h2>
+<div id="loginPage">
+    <h2>ใส่รหัสหัวใจของเราก่อนนะ 💌</h2>
     <input type="password" id="password">
-    <button onclick="checkPassword()">เข้าสู่ค่ำคืนของเรา</button>
+    <br><br>
+    <button onclick="checkPassword()">เปิดความรัก 💖</button>
 </div>
 
-<!-- หน้าบอกรัก -->
 <div id="lovePage">
-    <h1>คืนนี้ดาวยังสวย…</h1>
-    <p>แต่ก็ยังไม่สวยเท่าเธอเลยนะ 💙</p>
-    <img src="yourphoto.jpg" alt="รูปของเรา">
+    <h1>Happy Valentine’s Day 🌹</h1>
+    <p>ตั้งแต่มีเธอ ทุกวันก็กลายเป็นวันพิเศษหมดเลย 💕</p>
+
+    <video autoplay loop controls>
+        <source src="ourvideo.mp4" type="video/mp4">
+    </video>
 
     <audio id="loveSong" loop>
         <source src="yoursong.mp3" type="audio/mpeg">
@@ -85,27 +107,31 @@ h1 {
 </div>
 
 <script>
-// สร้างดาวเต็มท้องฟ้า
-for(let i=0;i<100;i++){
-    let star = document.createElement("div");
-    star.className = "star";
-    star.style.top = Math.random()*100 + "vh";
-    star.style.left = Math.random()*100 + "vw";
-    star.style.animationDuration = (Math.random()*3+1) + "s";
-    document.body.appendChild(star);
-}
-
-function checkPassword() {
+function checkPassword(){
     var pass = document.getElementById("password").value;
 
-    if(pass === "moonlight") {   // เปลี่ยนรหัสตรงนี้
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("lovePage").style.display = "block";
+    if(pass === "160366"){   // เปลี่ยนรหัสตรงนี้
+        document.getElementById("loginPage").style.display="none";
+        document.getElementById("lovePage").style.display="block";
         document.getElementById("loveSong").play();
-    } else {
-        alert("รหัสผิดนะคนดี 💫");
+    }else{
+        alert("รหัสยังไม่ตรงนะคนดี 💔");
     }
 }
+
+/* สร้างหัวใจลอย */
+setInterval(function(){
+    var heart = document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+15)+"px";
+    document.body.appendChild(heart);
+
+    setTimeout(function(){
+        heart.remove();
+    },6000);
+},300);
 </script>
 
 </body>
