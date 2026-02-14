@@ -7,7 +7,7 @@
 <style>
 body{
     margin:0;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg,#ff4d6d,#ff8fab,#ffc2d1);
     overflow:hidden;
     text-align:center;
@@ -26,7 +26,6 @@ input{
     border:none;
     border-radius:20px;
     font-size:16px;
-    width:200px;
 }
 
 button{
@@ -37,55 +36,80 @@ button{
     color:white;
     font-size:16px;
     cursor:pointer;
-    box-shadow:0 0 15px rgba(255,0,85,0.7);
-}
-
-button:hover{
-    background:#ff4569;
+    box-shadow:0 0 15px rgba(255,0,85,0.6);
 }
 
 /* หน้าเซอร์ไพรส์ */
 #lovePage{
     display:none;
-    position:absolute;
-    width:100%;
-    top:10%;
+    margin-top:60px;
 }
 
 h1{
-    font-size:45px;
-    text-shadow:0 0 20px white;
+    text-shadow:0 0 15px white;
 }
 
-p{
-    font-size:20px;
-}
-
-/* วิดีโอ */
-video{
-    width:320px;
+img{
+    width:300px;
     border-radius:25px;
     box-shadow:0 0 30px white;
+    opacity:0;
+    transform:scale(1);
+    transition: opacity 1s ease-in-out, transform 3s ease-in-out;
+}
+
+.zoom{
+    transform:scale(1.08);
+}
+
+#message{
     margin-top:20px;
-}
-
-/* หัวใจลอย */
-.heart{
-    position:absolute;
-    color:white;
     font-size:20px;
-    animation: float 6s linear infinite;
+    opacity:0;
+    transition: opacity 1s ease-in-out;
 }
 
-@keyframes float{
-    0%{ transform:translateY(100vh) scale(1); opacity:1; }
-    100%{ transform:translateY(-10vh) scale(1.5); opacity:0; }
+/* ปุ่มอ่านต่อ */
+#readMoreBtn{
+    display:none;
+    margin-top:25px;
+}
+
+/* ข้อความยาว */
+#finalMessage{
+    display:none;
+    margin:30px auto;
+    width:85%;
+    font-size:22px;
+    line-height:1.7;
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* กลีบกุหลาบ */
+.rose{
+    position:absolute;
+    top:-10px;
+    font-size:20px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform: translateY(100vh) rotate(360deg);
+        opacity:0;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- หน้าใส่รหัส -->
 <div id="loginPage">
     <h2>ใส่รหัสหัวใจของเราก่อนนะ 💌</h2>
     <input type="password" id="password">
@@ -93,45 +117,133 @@ video{
     <button onclick="checkPassword()">เปิดความรัก 💖</button>
 </div>
 
+<!-- หน้าเนื้อหา -->
 <div id="lovePage">
     <h1>Happy Valentine’s Day 🌹</h1>
-    <p>ตั้งแต่มีเธอ ทุกวันก็กลายเป็นวันพิเศษหมดเลย 💕</p>
 
-    <video autoplay loop controls>
-        <source src="ourvideo.mp4" type="video/mp4">
-    </video>
+    <img id="slide" src="">
+    <div id="message"></div>
 
+    <br>
+    <button id="readMoreBtn" onclick="showFinalMessage()">อ่านต่อ 💌</button>
+
+    <div id="finalMessage">
+        ตั้งแต่วันที่เธอเข้ามาในชีวิต  
+        โลกของเราก็อบอุ่นขึ้นแบบที่ไม่เคยเป็นมาก่อน  
+        ขอบคุณสำหรับทุกความทรงจำ ทุกเสียงหัวเราะ  
+        และทุกวันที่ยังจับมือกันอยู่  
+        ไม่ว่าอนาคตจะเป็นยังไง  
+        เราสัญญาว่าจะเลือกเธอเสมอ  
+        สุขสันต์วันวาเลนไทน์นะคนดี 💖🌹
+    </div>
+
+    <!-- เพลง -->
     <audio id="loveSong" loop>
         <source src="yoursong.mp3" type="audio/mpeg">
     </audio>
 </div>
 
 <script>
-function checkPassword(){
-    var pass = document.getElementById("password").value;
+/* รูป + ข้อความ */
+var images = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg"];
 
-    if(pass === "160366"){   // เปลี่ยนรหัสตรงนี้
+var texts = [
+"วันแรกที่เราได้รู้จักกัน 💕",
+"ทุกช่วงเวลาที่มีเธอ มันมีความหมายเสมอ 🌷",
+"ขอบคุณที่อยู่ข้างกันไม่ว่าอะไรจะเกิดขึ้น 🥹",
+"และนี่คือเหตุผลทั้งหมดที่เรารักเธอ 💖"
+];
+
+var index = 0;
+var slideInterval;
+
+/* ตรวจรหัส */
+function checkPassword(){
+    if(document.getElementById("password").value === "160366"){
         document.getElementById("loginPage").style.display="none";
         document.getElementById("lovePage").style.display="block";
-        document.getElementById("loveSong").play();
+
+        var music = document.getElementById("loveSong");
+        music.volume = 0;
+        music.play();
+        fadeInMusic(music);
+
+        startSlide();
     }else{
-        alert("รหัสยังไม่ตรงนะคนดี 💔");
+        alert("รหัสยังไม่ถูกนะ 💔");
     }
 }
 
-/* สร้างหัวใจลอย */
-setInterval(function(){
-    var heart = document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*20+15)+"px";
-    document.body.appendChild(heart);
+/* Fade in เพลง */
+function fadeInMusic(audio){
+    var volume = 0;
+    var fade = setInterval(function(){
+        if(volume < 0.9){
+            volume += 0.02;
+            audio.volume = volume;
+        }else{
+            clearInterval(fade);
+        }
+    },200);
+}
+
+/* เริ่มสไลด์ */
+function startSlide(){
+    showSlide();
+    slideInterval = setInterval(function(){
+        index++;
+        if(index >= images.length){
+            clearInterval(slideInterval);
+            return;
+        }
+        showSlide();
+    },4000);
+}
+
+/* แสดงรูป + ข้อความ */
+function showSlide(){
+    var img = document.getElementById("slide");
+    var msg = document.getElementById("message");
+
+    img.classList.remove("zoom");
+    img.style.opacity = 0;
+    msg.style.opacity = 0;
 
     setTimeout(function(){
-        heart.remove();
+        img.src = images[index];
+        msg.innerHTML = texts[index];
+
+        img.style.opacity = 1;
+        msg.style.opacity = 1;
+
+        setTimeout(function(){
+            img.classList.add("zoom");
+        },100);
+
+        if(index === images.length - 1){
+            document.getElementById("readMoreBtn").style.display = "inline-block";
+        }
+    },500);
+}
+
+/* แสดงข้อความยาว */
+function showFinalMessage(){
+    document.getElementById("finalMessage").style.display="block";
+}
+
+/* กลีบกุหลาบร่วง */
+setInterval(function(){
+    var rose = document.createElement("div");
+    rose.className = "rose";
+    rose.innerHTML = "🌹";
+    rose.style.left = Math.random()*100 + "vw";
+    rose.style.animationDuration = (Math.random()*3 + 3) + "s";
+    document.body.appendChild(rose);
+
+    setTimeout(function(){
+        rose.remove();
     },6000);
-},300);
+},500);
 </script>
 
 </body>
